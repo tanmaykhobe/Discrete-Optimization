@@ -10,4 +10,4 @@ Information about various modules included in this directory -
 	The module that contains the greedy function to solve the knapsack assignment. The fourth and sixth problem are solved using greedy function.
 
 4. knapsack_dp.py :
-	The module that contains the dynamic programming approach function to solve the knapsack assignment. 
+	The module that contains the dynamic programming approach function to solve the knapsack assignment.
