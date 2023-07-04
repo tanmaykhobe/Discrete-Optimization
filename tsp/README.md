@@ -1,0 +1,5 @@
+The travelling salesman problem has been implemented using various approaches.
+One of the approaches is generating a greedy solution which works as follows -
+  Starting from a random point, say point 0, find its nearest point and add an edge. Keep adding edges from the last point in tour but finding the nerest point such that loop is not created. When all possible edges are exhausted, find the points having degree 1 in the tour and add the missing edge between these points.
+  Another approach is similar to Kruskal's Minimum Spanning tree algorithm. From the set of all possible edges, keep selecting the shortest edge and add it to a graph while checking for cycle in the graph. If a cycle is created by adding some edge, the edge is not selected. Continue until all the edges are not exhausted or a limiting condition is reached (number of edges equals number of vertices).
+  One of the techniques used for optimizing a feasible solution is the 2-opt technique which removes two edges and finds a configuration with two new edges that has minimum cost over a number of iterations.   
