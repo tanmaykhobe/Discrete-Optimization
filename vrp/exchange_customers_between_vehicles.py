@@ -8,17 +8,13 @@ def length(customer1, customer2):
 """ function to return the total cost of the tour """
 def totalcost(vehicle_tours, customers, vehicle_count):
     
-
     depot = customers[0]
     obj = 0
 
-
     for v in range(vehicle_count):
-
         vehicle_tour = vehicle_tours[v]
-
+        
         if len(vehicle_tour) > 0:
-
             obj += length(depot,customers[vehicle_tour[0]])
             for i in range(0, len(vehicle_tour)-1):
                 obj += length(customers[vehicle_tour[i]],customers[vehicle_tour[i+1]])
