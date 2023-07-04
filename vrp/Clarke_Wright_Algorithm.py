@@ -1,21 +1,30 @@
 import math 
 import numpy as np
 
+
 def length(customer1, customer2):
+    """ Function to return euclidean distance between two points """
     return math.sqrt((customer1.x - customer2.x)**2 + (customer1.y - customer2.y)**2)
 
+
 def find_route_containing_customer(routes, customer):
+
+    """ Returns the route in which particular customer is located """
     for i, route in enumerate(routes):
         if customer in route:
             return i
+        
     return None
 
 def is_feasible_merge(routes, route_i, route_j, demands, vehicle_capacity):
+
+    """ Return true if merging the customer in route does not exceed the capacity of vehicle in that route """
     total_demand = sum(demands[customer] for customer in routes[route_i]) + sum(demands[customer] for customer in routes[route_j])
+
     return total_demand <= vehicle_capacity
 
 def two_opt(route, customers):
-    """Applies the 2-opt algorithm to improve the given route"""
+    """ Applies the 2-opt algorithm to improve the given route"""
     improved = True
     best_distance = calculate_route_distance(route, customers)
     
@@ -31,6 +40,7 @@ def two_opt(route, customers):
                     route = new_route
                     best_distance = new_distance
                     improved = True
+
         route.insert(0, route[len(route)-1])
         route.pop()
     return route
@@ -38,8 +48,10 @@ def two_opt(route, customers):
 def calculate_route_distance(route, customers):
     """Calculates the total distance of a route"""
     total_distance = 0
+
     for i in range(len(route)):
         total_distance += length(customers[route[i]], customers[route[(i + 1) % len(route)]])
+
     return total_distance
 
 

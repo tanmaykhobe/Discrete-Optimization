@@ -7,34 +7,48 @@ from collections import defaultdict
 
 Point = namedtuple("Point", ['x', 'y', 'ptno'])
 
+""" Function to return euclidean distance between two points """
 def length(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
 
-def createsequence(edgelisto, n):
+""" Function to create output in the desired format, i.e.,
+     a list on vertices in the order they are visited from
+     a list of edges """
+def createsequence(edgelist, n):
+
+    # Using two dictionaries to store where each vertex is connected
     dict1 = {}
     dict2 = {}
-    for i in edgelisto:
+
+
+    for i in edgelist:
+        # since a vertex is connected to two other vertices,
+        # each dictionary will store one vertex 
         if i[0] in dict1:
             dict2[i[0]] = i[1]
         else:
             dict1[i[0]] = i[1]
+
         if i[1] in dict1:
             dict2[i[1]] = i[0]
         else:
             dict1[i[1]] = i[0]
-    # print(dict1, dict2)
-    # visited = [0]*len(edgelisto)
+
     res = [0]
+
+    # create the sequence by checking where the vertex is connected 
     while len(res) < n:
+
         if dict1[res[len(res)-1]] in res:
             res.append(dict2[res[len(res)-1]])
+
         else:
             res.append(dict1[res[len(res)-1]])
 
     return res
 
-# to check if adding a new edge makes the graph cyclic
+""" To check if adding a new edge makes the graph cyclic """
 class Graph:
     def __init__(self, V):
         self.V = V  # Number of vertices in the graph
@@ -74,46 +88,62 @@ class Graph:
         # Return the root of the disjoint set containing u
         return self.parent[u]
 
+""" Main greedy solution -
+    Sort the edges in the increasing order of their length
+    Keep selecting the next shortest edge if it does not form a loop in the graph 
+    until number of edges equals number of vertices """
+def sol(pts, n):
 
-def sol1(pts, n):
-    distancelist = []
+    # Creating list that hold distance between every point and every other point
+    distance_list = []
     for i in range(n-1):
         for j in range(i+1,n):
-            distancelist.append([length(pts[i],pts[j]),pts[i],pts[j]])
-    distancelist.sort()
-    # print(distancelist)
-    degree = [0]*n
-    edges = 0
-    edgelist = []
-    graph1 = Graph(n)
-    for i in distancelist:
+            distance_list.append([length(pts[i],pts[j]),pts[i],pts[j]])
+    
+    # Sort the list in ascending order
+    distance_list.sort()
+
+    # Create a list that stores the degree of each vertex
+    degree   =  [0] * n
+
+    # Keep count of number of edges
+    edges    =  0
+    edgelist =  []
+
+    # Initialize a graph with given number of points
+    graph1   =  Graph(n)
+
+    for i in distance_list:
+
+        # If number of edges equals to number of points, no need to continue
         if edges == n  :
             break
+        
+        # If both the vertices in the edgelist currently have degree less than two,
+        # and adding edge to the grapg does not result in a loop, the edge is added 
+        # to the graph and degrees of the vertices and number of edges are updated
         if degree[i[1].ptno] < 2 and degree[i[2].ptno] < 2:
             if graph1.addEdge(i[1].ptno, i[2].ptno) == True:
+
                 edgelist.append([i[1].ptno, i[2].ptno])
                 degree[i[1].ptno] += 1
                 degree[i[2].ptno] += 1
                 edges += 1
-                # print(degree)
-    # # to check if all the nodes are connected to only two vertices or not
-    # print(edgelist)   
+
+    # Find the vertices that have degree 1, there is a missing edge between these vertices 
+    # which needs to be added         
     temp = [0]*n
     for i in edgelist:
         temp[i[0]] += 1
-        temp[i[1]] += 1
-    # print(temp)
+        temp[i[1]] += 1 
+     
     missingedge = []
     for i in range(n):
         if temp[i] == 1:
             missingedge.append(i)
             temp[i] += 1
+    
+    # Add the missing edge and return the edgelist
     edgelist.append(missingedge)
-    # print(missingedge)
-    # print(edgelist)
-    # print(temp)
-    # print(len(edgelist))
-
-    # tempans = createsequence(edgelist, n)
-    # return tempans
+   
     return edgelist
