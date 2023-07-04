@@ -13,7 +13,6 @@ def length(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
 def solve_it(input_data):
-    # Modify this code to run your optimization algorithm
 
     # parse the input
     lines = input_data.split('\n')
@@ -32,23 +31,31 @@ def solve_it(input_data):
         parts = lines[i].split()
         customers.append(Customer(i-1-facility_count, int(parts[0]), Point(float(parts[1]), float(parts[2]))))
 
-    # build a trivial solution
-    if len(facilities) >= 3000:             # pack the facilities one by one until all the customers are served
+    
+    """""""""""""""""""""""""""" SOLUTION HERE """""""""""""""""""""""
+    
+    if len(facilities) >= 3000:             
+        # trivial solution - pack the facilities one by one until all the customers are served
         solution = [-1]*len(customers)
         capacity_remaining = [f.capacity for f in facilities]
 
         facility_index = 0
         for customer in customers:
+            
             if capacity_remaining[facility_index] >= customer.demand:
                 solution[customer.index] = facility_index
                 capacity_remaining[facility_index] -= customer.demand
+                
             else:
                 facility_index += 1
                 assert capacity_remaining[facility_index] >= customer.demand
                 solution[customer.index] = facility_index
                 capacity_remaining[facility_index] -= customer.demand
+                
     else:   
-        solution = solfun.myfun(facilities, customers)
+        solution = solfun.solver_using_scip(facilities, customers)
+
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     used = [0]*len(facilities)
     for facility_index in solution:
