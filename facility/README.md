@@ -1,14 +1,18 @@
-This code uses the OR-Tools library to solve a facility location problem using the SCIP solver. The goal is to determine which facilities should be opened and which customers should be served by each facility in order to minimize the total cost, which includes setup costs and distances between customers and facilities.
+# Facility Location Problem Solver
 
-Here is a summary of how the code works:
+This code utilizes the OR-Tools library to solve a facility location problem using the SCIP solver. The objective of the problem is to determine the optimal configuration of facilities and their corresponding customer assignments to minimize the total cost, which includes setup costs and distances between customers and facilities.
+
+## Summary
+
+The code follows the steps outlined below:
 
 1. Define the `length` function, which calculates the Euclidean distance between two points using their coordinates.
 
-2. Define the `solver_using_scip` function, which takes two lists as input: `facilities` and `customers`.
+2. Define the `solver_using_scip` function, which takes two input lists: `facilities` and `customers`.
 
 3. Set up the SCIP solver and configure the time limit for solving the problem based on the number of facilities.
 
-4. Create decision variables using `BoolVar` for facility status (open/closed) and facility-customer assignments.
+4. Create decision variables using `BoolVar` to represent the facility status (open/closed) and facility-customer assignments.
 
 5. Define the constraints:
    - Each customer must be served by exactly one facility.
@@ -22,9 +26,9 @@ Here is a summary of how the code works:
 7. Call the `solver.Solve()` method to solve the problem.
 
 8. Retrieve the solution:
-   - Iterate over the decision variables to determine the facility index that serves each customer.
+   - Iterate over the decision variables to determine the facility index serving each customer.
    - Store the facility indices in the `res` list.
 
 9. Return the `res` list, which represents the facility indices serving each customer.
 
-The code uses the SCIP solver to find an optimal solution to the facility location problem. It formulates the problem as a mixed-integer linear programming (MILP) model with binary decision variables and applies constraints and an objective function to determine the optimal facility assignments.
+This code leverages the SCIP solver from the OR-Tools library to find the optimal solution for the facility location problem. By formulating the problem as a mixed-integer linear programming (MILP) model and applying appropriate constraints and an objective function, it determines the optimal assignment of facilities and customers to minimize the total cost.
