@@ -1,5 +1,5 @@
-Course Title: Discrete Optimization 
-Offered by: University of Melbourne
+Course Title: Discrete Optimization \
+Offered by: University of Melbourne \
 Platform: Coursera
 
 This git repository contains the assignments part of the Discrete Optimizations course on coursera along with the solution files.
